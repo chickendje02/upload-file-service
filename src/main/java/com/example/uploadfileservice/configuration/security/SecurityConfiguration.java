@@ -39,16 +39,23 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        RequestMatcher requestMatcher = new AntPathRequestMatcher("/login"); // login page
+        RequestMatcher requestMatcher = new AntPathRequestMatcher("/login**"); // login page
         RequestMatcher h2Matcher = new AntPathRequestMatcher("/h2-console/**"); // h2 memory
+        RequestMatcher swagger = new AntPathRequestMatcher("/swagger-resources/**");
+        RequestMatcher swaggerUi = new AntPathRequestMatcher("/swagger-ui.html");
+        RequestMatcher swaggerConfiguration = new AntPathRequestMatcher("/configuration/ui");
+        RequestMatcher swaggerSecurity = new AntPathRequestMatcher("/configuration/security");
+        RequestMatcher swaggerWebJars = new AntPathRequestMatcher("/webjars/**");
+        RequestMatcher swaggerApiDoc = new AntPathRequestMatcher("/v2/api-docs");
+
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(requestMatcher, h2Matcher).permitAll()
+                        .requestMatchers(requestMatcher, h2Matcher, swagger, swaggerConfiguration, swaggerSecurity, swaggerUi, swaggerWebJars, swaggerApiDoc).permitAll()
                         .anyRequest()
                         .authenticated()
                 )
                 .csrf()
-                .ignoringAntMatchers("/h2-console/**")
+                .ignoringAntMatchers("/h2-console/**", "swagger**", "/configuration**","/v2/api-docs","/webjars/**" )
                 .and()
                 .headers()
                 .frameOptions().sameOrigin()
