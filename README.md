@@ -17,4 +17,4 @@
 * Swagger
 
 # Database Design
-![Workflow](https://github.com/chickendje02/coffee-shop-system/blob/main/design_db_coffee_shop.drawio.png)
+![Workflow](https://github.com/chickendje02/upload-file-service/blob/main/db_design.png)
